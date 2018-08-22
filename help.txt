@@ -1,0 +1,16 @@
+Supported Operators:
+
+* Arithmetic: + - * / % ^ ()
+* Dice: #d# (3d6, d20)
+* Dice modifiers (add these after a #d#):
+  * Keep/Drop Highest/Lowest: kh# kl# dh# dl#
+  * Exploding: ! !# !># !>=# !<# !<=#
+  * Reroll: r r# r># r>=# r<# r<=#
+  * Reroll once: ro
+  * Sorting: s sa sd
+* Comments: # your comment here
+  * Describe what the roll is for. eg: d20+5 # for initiative
+
+Detailed help: https://github.com/StarlitGhost/pyhedrals#supported-operators
+
+Suggestions and pull requests are welcome!
