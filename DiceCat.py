@@ -48,6 +48,9 @@ class DiceCat(PineappleBot):
                 NotImplementedError) as e:
             self._send_reply("@{} Error: {} :blob_cat_peek:".format(username, e), status)
             return
+        
+        if roller.description:
+            result = "{} {}".format(result, roller.description)
 
         # add all the individual rolls to the output
         if verbose:
