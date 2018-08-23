@@ -15,36 +15,48 @@ class DiceCat(PineappleBot):
 
         # strip out mentions
         soup = BeautifulSoup(status["content"], 'lxml')
-        [s.extract() for s in soup.find_all(class_="h-card")]
-        dice_expr = soup.text.strip()
-
-        # help command
-        if dice_expr.startswith("help"):
+        [mention.extract() for mention in soup.find_all(class_="h-card")]
+        
+        # put all the lines in a list
+        lines = [line.text.strip() for line in soup.find_all('p')]
+        
+        # help command (only valid on first line)
+        if lines[0].startswith("help"):
             with open("help.txt", "r") as f:
                 self._send_reply("@{}\n\n{}".format(username, f.read()), status)
                 return
 
-        # verbose mode
-        if dice_expr.startswith("long"):
-            dice_expr = dice_expr.lstrip("long")
-            verbose = True
-        else:
-            verbose = False
+        # loop over the lines looking for roll commands to run
+        results = []
+        for dice_expr in lines:
+            # verbose mode
+            if dice_expr.startswith("long"):
+                dice_expr = dice_expr.lstrip("long")
+                dice_expr = dice_expr.lstrip()
+                verbose = True
+            else:
+                verbose = False
 
-        # check for roll command, abort if not present
-        if dice_expr.startswith("roll"):
-            dice_expr = dice_expr.lstrip("roll")
-        else:
-            return
+            # check for roll command, skip if not present
+            if dice_expr.startswith("roll "):
+                dice_expr = dice_expr.lstrip("roll ")
+                dice_expr = dice_expr.lstrip()
+            else:
+                continue
 
-        self.log("respond_roll", "Received roll {!r} from @{}".format(dice_expr, username))
+            self.log("respond_roll", "Received roll {!r} from @{}".format(dice_expr, username))
 
-        # actually do the thing
-        result = self._roll(dice_expr)
+            # actually do the thing
+            result = self._roll(dice_expr, verbose)
+            if result:
+                results.append(result)
+
+        if results:
+            result = '\n'.join(results)
 
         self._send_reply("@{user} {result}".format(user=username, result=result), status)
 
-    def _roll(self, dice_expr):
+    def _roll(self, dice_expr, verbose):
         roller = DiceParser()
         try:
             result = roller.parse(dice_expr)
