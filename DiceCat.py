@@ -83,10 +83,11 @@ class DiceCat(PineappleBot):
         # add all the individual rolls to the output
         if verbose:
             roll_strings = roller.getRollStrings()
-            roll_string = '\n'.join(roll_strings)
+            roll_string = '\n '.join(roll_strings)
+            # the roll string is too long, cut it
             if len(roll_string) > 400:
                 roll_string = "LOTS OF DICE :blob_cat_fetch_ball:"
-            result = "{}\n\n{}".format(result, roll_string)
+            result = "{}\n {}".format(result, roll_string)
 
         return result
 
