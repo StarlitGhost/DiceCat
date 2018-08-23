@@ -51,8 +51,11 @@ class DiceCat(PineappleBot):
             if result:
                 results.append(result)
 
+        # if we have results, join them all up, otherwise abort
         if results:
             result = '\n'.join(results)
+        else:
+            return
 
         self._send_reply("@{user} {result}".format(user=username, result=result), status)
 
