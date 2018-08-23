@@ -40,23 +40,25 @@ class DiceCat(PineappleBot):
         self.log("respond_roll", "Received roll {!r} from @{}".format(dice_expr, username))
 
         # actually do the thing
+        result = self._roll(dice_expr)
+
+        self._send_reply("@{user} {result}".format(user=username, result=result), status)
+
+    def _roll(self, dice_expr):
         roller = DiceParser()
         try:
             result = roller.parse(dice_expr)
         except OverflowError:
-            self._send_reply("@{} Error: result too large to calculate :blob_cat_peek:".format(username), status)
-            return
+            return "Error: result too large to calculate :blob_cat_peek:"
         except RecursionError:
-            self._send_reply("@{} Error: I ran out of dice! Try something with less explosions or rerolls :blob_cat_melt:".format(username), status)
-            return
+            return "Error: I ran out of dice! Try something with less explosions or rerolls :blob_cat_melt:"
         except (ZeroDivisionError,
                 UnknownCharacterException,
                 SyntaxErrorException,
                 InvalidOperandsException,
                 NotImplementedError) as e:
-            self._send_reply("@{} Error: {} :blob_cat_peek:".format(username, e), status)
-            return
-        
+            return "Error: {} :blob_cat_peek:".format(e)
+
         # append comment text after the result
         if roller.description:
             result = "{} {}".format(result, roller.description)
@@ -69,7 +71,7 @@ class DiceCat(PineappleBot):
                 roll_string = "LOTS OF DICE :blob_cat_fetch_ball:"
             result = "{}\n\n{}".format(result, roll_string)
 
-        self._send_reply("@{} {}".format(username, result), status)
+        return result
 
     def _send_reply(self, reply, original):
         self.mastodon.status_post(reply,
