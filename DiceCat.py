@@ -31,6 +31,12 @@ class DiceCat(PineappleBot):
         else:
             verbose = False
 
+        # check for roll command, abort if not present
+        if dice_expr.startswith("roll"):
+            dice_expr = dice_expr.lstrip("roll")
+        else:
+            return
+
         self.log("respond_roll", "Received roll {!r} from @{}".format(dice_expr, username))
 
         # actually do the thing
