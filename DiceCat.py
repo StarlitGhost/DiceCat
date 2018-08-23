@@ -14,11 +14,13 @@ class DiceCat(PineappleBot):
         username = user["acct"]
 
         # strip out mentions
-        soup = BeautifulSoup(status["content"], 'lxml')
+        soup = BeautifulSoup(status["content"], "lxml")
         [mention.extract() for mention in soup.find_all(class_="h-card")]
         
         # put all the lines in a list
-        lines = [line.text.strip() for line in soup.find_all('p')]
+        for br in soup.find_all("br"):
+            br.replace_with('\n')
+        lines = [line.strip() for line in soup.text.splitlines()]
         
         # help command (only valid on first line)
         if lines[0].startswith("help"):
