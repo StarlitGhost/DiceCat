@@ -18,11 +18,13 @@ class DiceCat(PineappleBot):
         [s.extract() for s in soup.find_all(class_="h-card")]
         dice_expr = soup.text.strip()
 
+        # help command
         if dice_expr.startswith("help"):
             with open("help.txt", "r") as f:
                 self._send_reply("@{}\n\n{}".format(username, f.read()), status)
                 return
 
+        # verbose mode
         if dice_expr.startswith("long"):
             dice_expr = dice_expr.lstrip("long")
             verbose = True
@@ -49,6 +51,7 @@ class DiceCat(PineappleBot):
             self._send_reply("@{} Error: {} :blob_cat_peek:".format(username, e), status)
             return
         
+        # append comment text after the result
         if roller.description:
             result = "{} {}".format(result, roller.description)
 
