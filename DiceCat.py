@@ -64,7 +64,7 @@ class DiceCat(PineappleBot):
     def _roll(self, dice_expr, verbose):
         roller = DiceParser()
         try:
-            result = roller.parse(dice_expr)
+            result = "{}".format(roller.parse(dice_expr))
         except OverflowError:
             return "Error: result too large to calculate :blob_cat_peek:"
         except RecursionError:
