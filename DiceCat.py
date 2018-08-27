@@ -19,7 +19,7 @@ class DiceCat(PineappleBot):
         # put all the lines in a list
         for br in soup.find_all("br"):
             br.replace_with('\n')
-        lines = [line.strip() for line in soup.text.splitlines()]
+        lines = [line.strip() for line in soup.text.splitlines() if line.strip()]
         
         # help command (only valid on first line)
         if lines[0].startswith("help"):
