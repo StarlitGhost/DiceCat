@@ -1,4 +1,4 @@
-from ananas import PineappleBot, reply, html_strip_tags
+from ananas import PineappleBot, reply
 from pyhedrals import (
     DiceParser,
     UnknownCharacterException,
@@ -6,7 +6,6 @@ from pyhedrals import (
     InvalidOperandsException,
 )
 from bs4 import BeautifulSoup
-import re
 
 class DiceCat(PineappleBot):
     @reply
