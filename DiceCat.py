@@ -7,19 +7,27 @@ from pyhedrals import (
 )
 from bs4 import BeautifulSoup
 
+
 class DiceCat(PineappleBot):
     @reply
     def respond_roll(self, status, user):
         username = user["acct"]
 
-        # strip out mentions
+        # decode the toot into raw text
         soup = BeautifulSoup(status["content"], "lxml")
-        [mention.extract() for mention in soup.find_all(class_="h-card")]
-        
-        # put all the lines in a list
+        #  strip out mentions
+        for mention in status["mentions"]:
+            for a in soup.find_all(href=mention["url"]):
+                a.extract()
+        #  put all the lines in a list
+        #   replace <br /> tags with a newline
         for br in soup.find_all("br"):
             br.replace_with('\n')
-        lines = [line.strip() for line in soup.text.splitlines() if line.strip()]
+        #   then replace consecutive p tags with a double newline
+        lines = [line.text for line in soup.find_all('p')]
+        lines = '\n\n'.join(lines)
+        #   finally split all the lines up at the newlines we just added
+        lines = [line.strip() for line in lines.splitlines() if line.strip()]
         
         # help command (only valid on first line)
         if lines[0].startswith("help"):
