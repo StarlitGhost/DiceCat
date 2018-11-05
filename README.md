@@ -1,4 +1,4 @@
-# DiceCat [![Build Status](https://travis-ci.org/StarlitGhost/DiceCat.svg?branch=master)](https://travis-ci.org/StarlitGhost/DiceCat)
+# DiceCat [![Build Status](https://travis-ci.org/StarlitGhost/DiceCat.svg?branch=master)](https://travis-ci.org/StarlitGhost/DiceCat) [![Updates](https://pyup.io/repos/github/StarlitGhost/DiceCat/shield.svg)](https://pyup.io/repos/github/StarlitGhost/DiceCat/)
 A dice rolling Mastodon bot, using my dice roll library [pyhedrals](https://github.com/StarlitGhost/pyhedrals).
 
 To use, create a config file like this:
