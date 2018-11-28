@@ -1,6 +1,6 @@
 from ananas import PineappleBot, reply
 from pyhedrals import (
-    DiceParser,
+    DiceRoller,
     UnknownCharacterException,
     SyntaxErrorException,
     InvalidOperandsException,
@@ -28,7 +28,7 @@ class DiceCat(PineappleBot):
         lines = '\n\n'.join(lines)
         #   finally split all the lines up at the newlines we just added
         lines = [line.strip() for line in lines.splitlines() if line.strip()]
-        
+
         # help command (only valid on first line)
         if lines[0].startswith("help"):
             with open("help.txt", "r") as f:
@@ -69,13 +69,14 @@ class DiceCat(PineappleBot):
         self._send_reply("@{user} {result}".format(user=username, result=result), status)
 
     def _roll(self, dice_expr, verbose):
-        roller = DiceParser()
+        roller = DiceRoller()
         try:
             result = "{}".format(roller.parse(dice_expr))
         except OverflowError:
             return "Error: result too large to calculate :blob_cat_peek:"
         except RecursionError:
-            return "Error: I ran out of dice! Try something with less explosions or rerolls :blob_cat_melt:"
+            return ("Error: I ran out of dice! "
+                    "Try something with less explosions or rerolls :blob_cat_melt:")
         except (ZeroDivisionError,
                 UnknownCharacterException,
                 SyntaxErrorException,
@@ -100,5 +101,5 @@ class DiceCat(PineappleBot):
 
     def _send_reply(self, reply, original):
         self.mastodon.status_post(reply,
-                in_reply_to_id = original["id"],
-                visibility = original["visibility"])
+                                  in_reply_to_id=original["id"],
+                                  visibility=original["visibility"])
