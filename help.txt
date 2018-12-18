@@ -1,5 +1,3 @@
-Supported Operators:
-
 * Arithmetic: + - * / % ^ ()
 * Dice: #d# (3d6, d20)
 * Dice modifiers (add these after a #d#):
@@ -7,10 +5,11 @@ Supported Operators:
   * Exploding: ! !# !># !>=# !<# !<=#
   * Reroll: r r# r># r>=# r<# r<=#
   * Reroll once: ro
+  * Counting: c c# c># c>=# c<# c<=#
   * Sorting: s sa sd
 * Comments: # your comment here
   * Describe what the roll is for. eg: d20+5 # for initiative
 
 Detailed help: https://github.com/StarlitGhost/pyhedrals#supported-operators
 
-Suggestions and pull requests are welcome!
+Suggestions/PRs welcome!
