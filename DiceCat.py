@@ -71,7 +71,7 @@ class DiceCat(PineappleBot):
     def _roll(self, dice_expr, verbose):
         roller = DiceRoller()
         try:
-            result = "{}".format(roller.parse(dice_expr))
+            result = roller.parse(dice_expr)
         except OverflowError:
             return "Error: result too large to calculate :blob_cat_peek:"
         except RecursionError:
@@ -84,18 +84,20 @@ class DiceCat(PineappleBot):
                 NotImplementedError) as e:
             return "Error: {} :blob_cat_peek:".format(e)
 
-        # append comment text after the result
-        if roller.description:
-            result = "{} {}".format(result, roller.description)
+        # append comment text after the result, if it exists
+        if result.description:
+            response = "{} {}".format(result.result, result.description)
+        else:
+            response = "{}".format(result.result)
 
         # add all the individual rolls to the output
         if verbose:
-            roll_strings = roller.getRollStrings()
+            roll_strings = result.strings()
             roll_string = '\n '.join(roll_strings)
             # the roll string is too long, cut it
             if len(roll_string) > 400:
                 roll_string = "LOTS OF DICE :blob_cat_fetch_ball:"
-            result = "{}\n {}".format(result, roll_string)
+            result = "{}\n {}".format(response, roll_string)
 
         return result
 
