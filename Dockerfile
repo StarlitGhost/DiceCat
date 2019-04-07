@@ -20,5 +20,4 @@ COPY --from=build /usr/local /usr/local
 COPY --from=build /app /app
 WORKDIR /app
 ENV PYTHONUNBUFFERED=1
-ENTRYPOINT ananas
-CMD config/config.cfg
+ENTRYPOINT ananas config/config.cfg
