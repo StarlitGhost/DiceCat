@@ -1,4 +1,4 @@
 ananas==1.0.0b18
 pyhedrals==0.2.0
 beautifulsoup4==4.6.3
-lxml==4.2.5
+lxml==4.6.2
