@@ -98,6 +98,8 @@ class DiceCat(PineappleBot):
             if len(roll_string) > 400:
                 roll_string = "LOTS OF DICE :blob_cat_fetch_ball:"
             result = "{}\n {}".format(response, roll_string)
+        else:
+            result = response
 
         return result
 
