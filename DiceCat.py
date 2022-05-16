@@ -33,7 +33,7 @@ class DiceCat(PineappleBot):
         if lines[0].startswith("help"):
             with open("help.txt", "r") as f:
                 self._send_reply("@{}\n\n{}".format(username, f.read()), status)
-                return
+            return
 
         # loop over the lines looking for roll commands to run
         results = []
@@ -66,7 +66,12 @@ class DiceCat(PineappleBot):
         else:
             return
 
-        self._send_reply("@{user} {result}".format(user=username, result=result), status)
+        # Mention everyone mentioned in the original toot, except the bot.
+        mention_str = ""
+        for m in status["mentions"]:
+            if m['acct'] != self.username:
+                mention_str = mention_str + f"@{m['acct']} "
+        self._send_reply(f"@{username} {mention_str} {result}", status)
 
     def _roll(self, dice_expr, verbose):
         roller = DiceRoller()
